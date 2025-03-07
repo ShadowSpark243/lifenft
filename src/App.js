@@ -11,6 +11,7 @@ import { RedeemNFT } from './pages/RedeemNFT';
 import { ManageHospitals } from './pages/ManageHospitals';
 import { RoleContext } from './contexts/RoleContext';
 import { Logo } from './components/Logo';
+import ParticleBackground from './components/ParticleBackground';
 
 function App() {
   const [userRole, setUserRole] = useState(() => {
@@ -138,6 +139,7 @@ function App() {
               </div>
             </footer>
           </div>
+          <ParticleBackground />
         </div>
       </Router>
     </RoleContext.Provider>

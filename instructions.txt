@@ -1,0 +1,87 @@
+LifeNFT: Decentralized Blood Donation & Reward System
+
+Introduction
+
+LifeNFT is a blockchain-based platform that rewards blood donors with NFT-based incentives. It utilizes Ethereum/Polygon for NFT creation and integrates Hive blockchain for verification and transactions.
+
+Features
+
+Decentralized Donor Registry
+
+NFT Rewards stored in IPFS metadata
+
+Hive Blockchain Integration for verification
+
+Secure & Transparent Transactions
+
+Prerequisites
+
+Before using this project, ensure you have:
+
+Hive Keychain browser extension.(I used HiveSinger for Login)
+(Make sure you have added posting prvate key for writing on Hive Blockchain)
+
+Node.js and npm/yarn installed.
+
+Installation
+
+# Clone the repository
+git clone https://github.com/yourusername/LifeNFT.git
+cd LifeNFT
+
+# Install dependencies
+npm install
+
+How to Use
+
+1. Setup Environment Variables
+
+Create a .env file and configure:
+
+INFURA_API_KEY=your_infura_key
+HIVE_API_URL=https://api.hive.blog
+HIVE_ACCOUNT=your_hive_username
+HIVE_PRIVATE_KEY=your_hive_private_key
+
+2. Running the Application
+
+npm start
+
+3. Minting an NFT for Blood Donation
+
+Enter donor details.
+
+Upload NFT metadata to IPFS.
+
+Confirm the transaction.
+
+4. Broadcasting on Hive Blockchain
+
+Ensure Hive Keychain is installed.
+
+Login with your Hive account.
+
+Transaction will be signed and broadcasted.
+
+Verifying Transactions
+
+To verify transactions:
+
+Check Etherscan for Ethereum NFT minting.
+
+Use HiveBlocks (https://hiveblocks.com) to track Hive transactions.
+
+Troubleshooting
+
+"Account not found" in Hive Keychain? Ensure your Hive username is added.
+
+NFT metadata not found? Confirm IPFS upload is successful.
+
+Contributing
+
+Feel free to contribute by submitting issues or pull requests.
+
+License
+
+This project is licensed under the MIT License.
+

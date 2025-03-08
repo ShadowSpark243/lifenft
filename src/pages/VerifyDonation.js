@@ -2,9 +2,11 @@ import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
+import { useDonations } from '../contexts/DonationContext'; // Import the context
 
 export function VerifyDonation() {
   const navigate = useNavigate();
+  const { addDonation } = useDonations(); // Get the addDonation function from context
   const [formData, setFormData] = useState({
     donorName: '',
     donorId: '',
@@ -82,6 +84,18 @@ export function VerifyDonation() {
           (response) => {
             if (response.success) {
               setTransactionStatus("NFT issued successfully on Hive!");
+              const newTransaction = {
+                id: uuidv4(),
+                donorName: formData.donorName,
+                bloodType: formData.bloodType,
+                donationDate: new Date().toISOString(),
+                nftIssued: true,
+                verifiedBy: "Your Name" // Replace with actual verifier
+              };
+
+              // Add the transaction to the hospital dashboard
+              addDonation(newTransaction); // Add the new transaction to the context
+              navigate('/hospital-dashboard'); // Redirect to the dashboard
             } else {
               setTransactionStatus("Transaction failed: " + response.message);
             }

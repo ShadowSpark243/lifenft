@@ -130,7 +130,7 @@ export function Login() {
         </div>
 
         <div className="mt-6 text-center">
-          <button onClick={handleHiveLogin} className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600">
+          <button onClick={handleHiveLogin} className="w-full py-3 rounded-lg bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white font-medium transition-all shadow-lg hover:shadow-purple-500/20">
             Login with Hive Keychain
           </button>
         </div>

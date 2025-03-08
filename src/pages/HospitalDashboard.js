@@ -1,6 +1,7 @@
 import React, { useContext, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { RoleContext } from '../contexts/RoleContext';
+import { useDonations } from '../contexts/DonationContext';
 
 // Mock data for donations
 const mockDonations = [
@@ -12,16 +13,21 @@ const mockDonations = [
 
 export function HospitalDashboard() {
   const { userRole } = useContext(RoleContext);
-  const [donations, setDonations] = useState(mockDonations);
+  const { donations } = useDonations();
   const [issuingNft, setIssuingNft] = useState(false);
   const [selectedDonation, setSelectedDonation] = useState(null);
+
+  // Function to add a new donation
+  const addDonation = (newDonation) => {
+    // This function is now handled by the useDonations context
+  };
 
   // Issue NFT (mock function)
   const handleIssueNFT = (donationId) => {
     const updatedDonations = donations.map(donation => 
       donation.id === donationId ? { ...donation, nftIssued: true } : donation
     );
-    setDonations(updatedDonations);
+    // This function is now handled by the useDonations context
     setIssuingNft(false);
     setSelectedDonation(null);
   };
@@ -100,19 +106,17 @@ export function HospitalDashboard() {
                 <th className="px-6 py-3 text-left text-xs font-medium text-slate-300 uppercase tracking-wider">Donor Name</th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-slate-300 uppercase tracking-wider">Blood Type</th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-slate-300 uppercase tracking-wider">Donation Date</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-slate-300 uppercase tracking-wider">Verified By</th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-slate-300 uppercase tracking-wider">NFT Status</th>
                 <th className="px-6 py-3 text-right text-xs font-medium text-slate-300 uppercase tracking-wider">Actions</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-700">
-              {donations.map(donation => (
+              {donations.map((donation) => (
                 <tr key={donation.id} className="hover:bg-slate-700/30">
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-300">{donation.id}</td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-white">{donation.donorName}</td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-300">{donation.bloodType}</td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-300">{donation.donationDate}</td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-300">{donation.verifiedBy}</td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm">
                     <span className={`px-2 py-1 rounded-full text-xs font-medium ${
                       donation.nftIssued 

@@ -1,6 +1,10 @@
 import React, { useContext, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { RoleContext } from '../contexts/RoleContext';
+import * as hiveTx from "hive-tx";
+import HiveTransactions from "./HiveTransactions";
+import HiveKeychainLogin from "./HiveKeychainLogin";
+import BroadcastTransaction from "./BroadcastTransaction";
 
 // Mock data for user's NFTs
 const mockNFTs = [
@@ -41,7 +45,7 @@ export function UserDashboard() {
   const [nfts, setNfts] = useState(mockNFTs);
   const [showRedeemModal, setShowRedeemModal] = useState(false);
   const [selectedNft, setSelectedNft] = useState(null);
-
+  const [username, setUsername] = useState("");
   // Redeem NFT (mock function)
   const handleRedeemNFT = (nftId) => {
     const updatedNfts = nfts.map(nft => 
@@ -66,11 +70,24 @@ export function UserDashboard() {
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
       <div className="mb-8">
         <h1 className="text-3xl font-bold">My Blood Donation NFTs</h1>
         <p className="mt-2 text-slate-400">Manage your donation NFTs and redeem benefits</p>
       </div>
+    <div>
+    <h1>LifeNFT Transactions</h1>
 
+    <HiveKeychainLogin onLogin={setUsername} />
+
+    {username && (
+      <>
+        <h3>Logged in as: {username}</h3>
+        <HiveTransactions username={username} />
+        <BroadcastTransaction />
+      </>
+    )}
+    </div>
       {/* User Stats */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
         <div className="bg-slate-800/80 backdrop-blur-sm rounded-xl p-6 border border-slate-700 shadow-lg">

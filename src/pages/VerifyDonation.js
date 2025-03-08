@@ -1,10 +1,9 @@
-import React, { useContext, useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
-import { RoleContext } from '../contexts/RoleContext';
+import React, { useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import { v4 as uuidv4 } from "uuid";
 
 export function VerifyDonation() {
-  const { userRole } = useContext(RoleContext);
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     donorName: '',
@@ -14,81 +13,92 @@ export function VerifyDonation() {
     notes: ''
   });
   const [isVerifying, setIsVerifying] = useState(false);
-  const [ipfsHash, setIpfsHash] = useState(null);
-
-  const PINATA_JWT = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySW5mb3JtYXRpb24iOnsiaWQiOiI5OTMyNjE0OC1hMzIzLTQ0YzItYjUwNi00MTU0YTNiMTNmMzMiLCJlbWFpbCI6ImFyaWZha2h0YXI5MDJAZ21haWwuY29tIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsInBpbl9wb2xpY3kiOnsicmVnaW9ucyI6W3siZGVzaXJlZFJlcGxpY2F0aW9uQ291bnQiOjEsImlkIjoiRlJBMSJ9LHsiZGVzaXJlZFJlcGxpY2F0aW9uQ291bnQiOjEsImlkIjoiTllDMSJ9XSwidmVyc2lvbiI6MX0sIm1mYV9lbmFibGVkIjpmYWxzZSwic3RhdHVzIjoiQUNUSVZFIn0sImF1dGhlbnRpY2F0aW9uVHlwZSI6InNjb3BlZEtleSIsInNjb3BlZEtleUtleSI6ImY4NGUyNWIzYzgyYjY1ZTAzOGExIiwic2NvcGVkS2V5U2VjcmV0IjoiOWRjODM2Yzk5OTNiMTg2Zjg0ZTQ3MWQ5ZmU1ZDE2ZTY3YzE0ZDIwZTczNTlkNGU0ODJmODVkMjFkNWNkMDdmNiIsImV4cCI6MTc3MjgyNzM3NX0.tFYF935D4sJDZY98sLj1rK9lC2NOrk-x9f2lYjXHpgQ"; // Replace with your actual Pinata JWT
+  const [transactionStatus, setTransactionStatus] = useState("");
+  const [ipfsHash, setIpfsHash] = useState("");
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
 
-  const uploadToPinata = async () => {
-    const metadata = {
-      name: "LifeNFT Blood Donation Badge",
-      description: "NFT awarded for blood donation",
-      attributes: {
-        donorId: formData.donorId,
-        donorName: formData.donorName,
-        bloodType: formData.bloodType,
-        amount: formData.amount,
-        notes: formData.notes,
-        timestamp: new Date().toISOString(),
-      },
-    };
-
-    try {
-      const response = await axios.post(
-        "https://api.pinata.cloud/pinning/pinJSONToIPFS",
-        { pinataContent: metadata },
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${PINATA_JWT}`,
-          },
-        }
-      );
-
-      return response.data.IpfsHash;
-    } catch (error) {
-      console.error("Error uploading to Pinata:", error);
-      return null;
-    }
-  };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsVerifying(true);
+    
+    try {
+      const metadata = {
+        name: "LifeNFT Blood Donation Badge",
+        description: "NFT awarded for blood donation",
+        attributes: {
+          donorId: formData.donorId,
+          donorName: formData.donorName,
+          bloodType: formData.bloodType,
+          amount: formData.amount,
+          notes: formData.notes,
+          timestamp: new Date().toISOString()
+        }
+      };
 
-    const ipfsHash = await uploadToPinata();
+      const pinataJWT = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySW5mb3JtYXRpb24iOnsiaWQiOiI5OTMyNjE0OC1hMzIzLTQ0YzItYjUwNi00MTU0YTNiMTNmMzMiLCJlbWFpbCI6ImFyaWZha2h0YXI5MDJAZ21haWwuY29tIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsInBpbl9wb2xpY3kiOnsicmVnaW9ucyI6W3siZGVzaXJlZFJlcGxpY2F0aW9uQ291bnQiOjEsImlkIjoiRlJBMSJ9LHsiZGVzaXJlZFJlcGxpY2F0aW9uQ291bnQiOjEsImlkIjoiTllDMSJ9XSwidmVyc2lvbiI6MX0sIm1mYV9lbmFibGVkIjpmYWxzZSwic3RhdHVzIjoiQUNUSVZFIn0sImF1dGhlbnRpY2F0aW9uVHlwZSI6InNjb3BlZEtleSIsInNjb3BlZEtleUtleSI6ImY4NGUyNWIzYzgyYjY1ZTAzOGExIiwic2NvcGVkS2V5U2VjcmV0IjoiOWRjODM2Yzk5OTNiMTg2Zjg0ZTQ3MWQ5ZmU1ZDE2ZTY3YzE0ZDIwZTczNTlkNGU0ODJmODVkMjFkNWNkMDdmNiIsImV4cCI6MTc3MjgyNzM3NX0.tFYF935D4sJDZY98sLj1rK9lC2NOrk-x9f2lYjXHpgQ";
 
-    if (ipfsHash) {
+      const pinataResponse = await axios.post(
+        "https://api.pinata.cloud/pinning/pinJSONToIPFS",
+        metadata,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${pinataJWT}`
+          }
+        }
+      );
+
+      const ipfsHash = pinataResponse.data.IpfsHash;
       setIpfsHash(ipfsHash);
-      alert("Metadata uploaded to IPFS: " + ipfsHash);
 
-      // Navigate after successful upload
-      navigate('/hospital-dashboard');
+      const customJson = {
+        id: "life_nft",
+        json: JSON.stringify({
+          nft_type: "LifeNFT",
+          donor_id: formData.donorId,
+          donor_name: formData.donorName,
+          blood_type: formData.bloodType,
+          amount: formData.amount,
+          notes: formData.notes,
+          ipfs_hash: ipfsHash,
+          timestamp: new Date().toISOString(),
+          tx_id: uuidv4()
+        }),
+        required_auths: [],
+        required_posting_auths: [formData.donorId]
+      };
 
-      setTimeout(() => {
+      if (window.hive_keychain) {
+        window.hive_keychain.requestCustomJson(
+          formData.donorId,
+          customJson.id,
+          "Posting",
+          customJson.json,
+          "Issue Blood Donation NFT",
+          (response) => {
+            if (response.success) {
+              setTransactionStatus("NFT issued successfully on Hive!");
+            } else {
+              setTransactionStatus("Transaction failed: " + response.message);
+            }
+            setIsVerifying(false);
+          }
+        );
+      } else {
+        alert("Hive Keychain extension is required!");
         setIsVerifying(false);
-      }, 2000);
-    } else {
-      alert("Failed to upload metadata.");
+      }
+
+    } catch (error) {
+      console.error("Error:", error);
+      setTransactionStatus("Error in processing transaction.");
       setIsVerifying(false);
     }
   };
-
-  if (userRole !== 'hospital') {
-    return (
-      <div className="max-w-4xl mx-auto px-4 text-center py-12">
-        <h2 className="text-2xl font-bold mb-4">Access Denied</h2>
-        <p className="text-slate-400 mb-6">You don't have permission to access this page.</p>
-        <Link to="/" className="px-4 py-2 bg-slate-700 rounded-lg text-white hover:bg-slate-600 transition-colors">
-          Return to Home
-        </Link>
-      </div>
-    );
-  }
 
   return (
     <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -171,30 +181,9 @@ export function VerifyDonation() {
             ></textarea>
           </div>
           
-          {ipfsHash && (
-            <p className="text-green-400 text-center mt-4">
-              ✅ Metadata Uploaded! IPFS Hash: 
-              <a href={`https://gateway.pinata.cloud/ipfs/${ipfsHash}`} target="_blank" rel="noopener noreferrer" className="underline">
-                {ipfsHash}
-              </a>
-            </p>
-          )}
-
-          <div className="flex justify-end space-x-3 pt-6">
-            <Link
-              to="/hospital-dashboard"
-              className="px-4 py-2 rounded-lg bg-slate-700 hover:bg-slate-600 text-white transition-all"
-            >
-              Cancel
-            </Link>
-            <button 
-              type="submit"
-              className="px-6 py-2 rounded-lg bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white font-medium transition-all shadow-lg hover:shadow-purple-500/20 flex items-center"
-              disabled={isVerifying}
-            >
-              {isVerifying ? "Uploading..." : "Verify & Issue NFT"}
-            </button>
-          </div>
+          <button type="submit" className="w-full p-3 bg-purple-500 hover:bg-purple-600 text-white rounded-lg" disabled={isVerifying}>
+            {isVerifying ? "Verifying..." : "Verify & Issue NFT"}
+          </button>
         </form>
       </div>
     </div>

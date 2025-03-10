@@ -1,71 +1,90 @@
-# Getting Started with Create React App
+# BloodDonorNFT
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+BloodDonorNFT is a blockchain-based platform that incentivizes blood donation by rewarding donors with unique NFTs. This project connects hospitals, government agencies, and blood donors in a secure and transparent ecosystem.
 
-## Available Scripts
+## Overview
 
-In the project directory, you can run:
+BloodDonorNFT addresses the global challenge of blood shortage by creating a rewarding system for donors. The platform verifies donations through hospital partnerships and issues digital certificates as NFTs, which can later be redeemed for various benefits.
 
-### `npm start`
+## Features
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+- **Multi-Role System**: Separate dashboards and functionality for government agencies, hospitals, and blood donors
+- **Blockchain Verification**: Secure, transparent recording of donation events
+- **NFT Rewards**: Digital certificates issued as non-fungible tokens
+- **Donation Tracking**: Complete history of donations with verification status
+- **Hospital Management**: Government agencies can approve and manage participating hospitals
+- **Mobile Responsive**: Fully responsive design that works on all devices
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Technology Stack
 
-### `npm test`
+- **Frontend**: React.js with React Router for navigation
+- **Styling**: Tailwind CSS with custom gradient and animation effects
+- **UI Components**: Custom components with responsive design
+- **Authentication**: JWT-based authentication with role-based access control
+- **Local Storage**: Persistent user sessions and preferences
+- **Visual Effects**: Particle background and modern UI elements
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Getting Started
 
-### `npm run build`
+### Prerequisites
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+- Node.js (v14 or higher)
+- npm or yarn
+- MetaMask or another Web3 wallet for NFT transactions
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### Installation
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/ShadowSpark243/lifenft.git
+   cd lifenft
+   ```
 
-### `npm run eject`
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+3. Start the development server:
+   ```bash
+   npm start
+   ```
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+4. The application will be available at `http://localhost:3000`
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+## User Roles
 
-## Learn More
+### Government Agency
+- Approve and manage hospital registrations
+- View donation statistics and analytics
+- Configure system parameters
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+### Hospital
+- Verify blood donations
+- Issue NFT certificates to donors
+- Manage donation records
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+### Blood Donor
+- Register and manage profile
+- View donation history
+- Redeem NFT rewards
 
-### Code Splitting
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+## Contributing
 
-### Analyzing the Bundle Size
+We welcome contributions to the BloodDonorNFT project. Please read our [CONTRIBUTING.md](CONTRIBUTING.md) file for guidelines on how to make contributions.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+## License
 
-### Making a Progressive Web App
+This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+## Contact
 
-### Advanced Configuration
+- Email: shadowspark243@gmail.com
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+## Acknowledgments
 
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
-# lifenft
+- Blood donation centers worldwide for their invaluable service
+- The blockchain and NFT communities for inspiration
+- Our development team and early adopters

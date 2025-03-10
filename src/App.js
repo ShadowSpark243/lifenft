@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import { Home } from './pages/Home';
 import { Login } from './pages/Login';
 import { Register } from './pages/Register';
+import { Explore } from './pages/Explore';
 import { GovDashboard } from './pages/GovDashboard';
 import { HospitalDashboard } from './pages/HospitalDashboard';
 import { UserDashboard } from './pages/UserDashboard';
@@ -10,7 +11,7 @@ import { VerifyDonation } from './pages/VerifyDonation';
 import { RedeemNFT } from './pages/RedeemNFT';
 import { ManageHospitals } from './pages/ManageHospitals';
 import { RoleContext } from './contexts/RoleContext';
-import { Logo } from './components/Logo';
+import AppBar from './components/AppBar';
 import ParticleBackground from './components/ParticleBackground';
 import { DonationProvider } from './contexts/DonationContext';
 
@@ -36,6 +37,7 @@ function App() {
     setIsLoggedIn(false);
     localStorage.removeItem('userRole');
     localStorage.removeItem('isLoggedIn');
+    window.location.href = '/'; // Redirect to home page after logout
   };
 
   // Helper function to get dashboard based on role
@@ -56,52 +58,14 @@ function App() {
             <div className="absolute inset-0 bg-noise"></div>
             <div className="absolute inset-0 bg-gradient-mesh"></div>
             <div className="relative z-10">
-              {/* Navigation */}
-              <nav className="sticky top-0 z-50 bg-slate-900/90 backdrop-blur-md shadow-lg">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                  <div className="flex justify-between h-20">
-                    <div className="flex items-center">
-                      <Logo />
-                      <span className="ml-3 text-xl font-bold text-gradient">
-                        BloodDonorNFT
-                      </span>
-                    </div>
-                    <div className="hidden md:flex items-center space-x-2">
-                      <Link to="/" className="px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 text-slate-300 hover:text-white hover:bg-slate-800/50">
-                        Home
-                      </Link>
-                      
-                      {isLoggedIn ? (
-                        <>
-                          <Link to={getDashboardPath()} className="px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 text-slate-300 hover:text-white hover:bg-slate-800/50">
-                            Dashboard
-                          </Link>
-                          <button 
-                            onClick={logout}
-                            className="ml-4 px-4 py-2 rounded-lg bg-red-500 hover:bg-red-600 text-white font-medium transition-all shadow-lg"
-                          >
-                            Logout
-                          </button>
-                        </>
-                      ) : (
-                        <>
-                          <Link to="/login" className="px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 text-slate-300 hover:text-white hover:bg-slate-800/50">
-                            Login
-                          </Link>
-                          <Link to="/register" className="ml-4 px-4 py-2 rounded-lg bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white font-medium transition-all shadow-lg hover:shadow-purple-500/20 btn-glow">
-                            Register
-                          </Link>
-                        </>
-                      )}
-                    </div>
-                  </div>
-                </div>
-              </nav>
+              {/* Use the new AppBar */}
+              <AppBar />
 
               {/* Routes */}
               <div className="py-8">
                 <Routes>
                   <Route path="/" element={<Home />} />
+                  <Route path="/explore" element={<Explore />} />
                   <Route path="/login" element={<Login />} />
                   <Route path="/register" element={<Register />} />
                   <Route path="/gov-dashboard" element={<GovDashboard />} />
@@ -125,6 +89,7 @@ function App() {
                       <h4 className="text-lg font-semibold text-white mb-3">Quick Links</h4>
                       <ul className="space-y-2">
                         <li><Link to="/" className="text-slate-400 hover:text-white transition-colors">Home</Link></li>
+                        <li><Link to="/explore" className="text-slate-400 hover:text-white transition-colors">Explore</Link></li>
                         <li><Link to="/login" className="text-slate-400 hover:text-white transition-colors">Login</Link></li>
                         <li><Link to="/register" className="text-slate-400 hover:text-white transition-colors">Register</Link></li>
                       </ul>

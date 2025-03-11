@@ -11,29 +11,75 @@ export function Login() {
   const { login } = useContext(RoleContext);
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleApiLogin = async (email, password) => {
+    try {
+      const response = await fetch('https://localhost:7019/api/Auth/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        credentials: 'include',
+        body: JSON.stringify({
+          user_Id: email,
+          password: password,
+          processname: "Login"  // Hardcoded as requested
+        })
+      });
+
+      const data = await response.json();
+      console.log("API Response:", data);
+
+      // Check if data contains the array with login result
+      if (data.data && data.data.length > 0) {
+        const loginResult = data.data[0];
+        
+        if (loginResult.Message_Code === 113) {
+          // Show success message
+          alert(loginResult.Message_Description);
+          // Store user data if needed
+          localStorage.setItem('userData', JSON.stringify(loginResult));
+          return true;
+        }
+      }
+
+      // If we didn't get the success code, show error
+      setError(data.message || "Invalid credentials");
+      return false;
+    } catch (err) {
+      console.error("Login error:", err);
+      setError("API Login failed. Please try again.");
+      return false;
+    }
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
 
-    if (!email || !password) {
+    if (!email.trim() || !password.trim()) {
       setError("Please fill in all fields");
       return;
     }
 
     try {
-      login(role);
-      switch (role) {
-        case "government":
-          navigate("/gov-dashboard");
-          break;
-        case "hospital":
-          navigate("/hospital-dashboard");
-          break;
-        case "user":
-          navigate("/user-dashboard");
-          break;
-        default:
-          navigate("/");
+      const apiLoginSuccess = await handleApiLogin(email, password);
+      
+      if (apiLoginSuccess) {
+        login(role);
+        switch (role) {
+          case "government":
+            navigate("/gov-dashboard");
+            break;
+          case "hospital":
+            navigate("/hospital-dashboard");
+            break;
+          case "user":
+            navigate("/user-dashboard");
+            break;
+          default:
+            navigate("/");
+        }
       }
     } catch (err) {
       setError("Login failed. Please try again.");
@@ -81,13 +127,13 @@ export function Login() {
 
         <form onSubmit={handleSubmit} className="space-y-6">
           <div>
-            <label className="block text-sm font-medium text-slate-300 mb-1">Email Address</label>
+            <label className="block text-sm font-medium text-slate-300 mb-1">Username/ID</label>
             <input
-              type="email"
+              type="text"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               className="w-full p-3 bg-slate-700/50 border border-slate-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
-              placeholder="you@example.com"
+              placeholder="Enter your username"
             />
           </div>
 

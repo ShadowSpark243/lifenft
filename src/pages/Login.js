@@ -1,19 +1,20 @@
 import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { RoleContext } from "../contexts/RoleContext";
-import HiveKeychainLogin from "./HiveKeychainLogin";
 
 export function Login() {
-  const [email, setEmail] = useState("");
+  const [userId, setUserId] = useState("");
   const [password, setPassword] = useState("");
-  const [role, setRole] = useState("user");
   const [error, setError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const { login } = useContext(RoleContext);
   const navigate = useNavigate();
 
-  const handleApiLogin = async (email, password) => {
+  const handleApiLogin = async (userId, password) => {
     try {
-      const response = await fetch('https://localhost:7019/api/Auth/login', {
+      setIsLoading(true);
+      // Update the endpoint to point to our new backend
+      const response = await fetch('http://localhost:5000/auth/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -21,35 +22,40 @@ export function Login() {
         },
         credentials: 'include',
         body: JSON.stringify({
-          user_Id: email,
-          password: password,
-          processname: "Login"  // Hardcoded as requested
+          userId: userId,
+          password: password
         })
       });
 
       const data = await response.json();
       console.log("API Response:", data);
 
-      // Check if data contains the array with login result
-      if (data.data && data.data.length > 0) {
-        const loginResult = data.data[0];
+      // Update response handling to match our new backend format
+      if (data.user) {
+        // Store user data in localStorage
+        localStorage.setItem('userData', JSON.stringify(data.user));
         
-        if (loginResult.Message_Code === 113) {
-          // Show success message
-          alert(loginResult.Message_Description);
-          // Store user data if needed
-          localStorage.setItem('userData', JSON.stringify(loginResult));
-          return true;
-        }
+        // Return success with role information
+        return {
+          success: true,
+          role: data.user.Role || 'user',
+          message: data.message
+        };
+      } else {
+        // Login failed
+        return {
+          success: false,
+          message: data.message || "Invalid credentials"
+        };
       }
-
-      // If we didn't get the success code, show error
-      setError(data.message || "Invalid credentials");
-      return false;
     } catch (err) {
       console.error("Login error:", err);
-      setError("API Login failed. Please try again.");
-      return false;
+      return {
+        success: false,
+        message: "Login failed. Please try again."
+      };
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -57,17 +63,20 @@ export function Login() {
     e.preventDefault();
     setError("");
 
-    if (!email.trim() || !password.trim()) {
+    if (!userId.trim() || !password.trim()) {
       setError("Please fill in all fields");
       return;
     }
 
     try {
-      const apiLoginSuccess = await handleApiLogin(email, password);
+      const loginResult = await handleApiLogin(userId, password);
       
-      if (apiLoginSuccess) {
-        login(role);
-        switch (role) {
+      if (loginResult.success) {
+        // Set the role in the context
+        login(loginResult.role);
+        
+        // Navigate based on role
+        switch (loginResult.role) {
           case "government":
             navigate("/gov-dashboard");
             break;
@@ -80,8 +89,10 @@ export function Login() {
           default:
             navigate("/");
         }
+      } else {
+        setError(loginResult.message);
       }
-    } catch (err) {//arif
+    } catch (err) {
       setError("Login failed. Please try again.");
     }
   };
@@ -92,32 +103,47 @@ export function Login() {
       return;
     }
 
+    // Get username from input field
+    const hiveUsername = userId;
+    
+    if (!hiveUsername) {
+      setError("Please enter your Hive username first");
+      return;
+    }
+
     const message = "Login to LifeNFT at " + new Date().toISOString();
 
     window.hive_keychain.requestSignBuffer(
-      null, // Automatically fetch the username
+      hiveUsername,
       message,
       "Posting",
       function (response) {
         if (response.success) {
-          const username = response.data.username; // Extract username from response
-          console.log("Hive Keychain Login Successful:", username);
+          console.log("Hive Keychain Login Successful:", hiveUsername);
           
-          login("user"); // Set role to "user" after successful login
+          // For Hive users, we default to 'user' role
+          login("user");
+          
+          // Store minimal user data
+          localStorage.setItem('userData', JSON.stringify({
+            User_Id: hiveUsername,
+            Role: 'user',
+            isHiveUser: true
+          }));
+          
           navigate("/user-dashboard");
         } else {
-          alert("Login failed: " + response.message);
+          setError("Hive login failed: " + response.message);
           console.error("Hive Keychain Login Error:", response);
         }
       }
     );
-  
   };
 
   return (
     <div className="max-w-md mx-auto px-4">
       <div className="bg-slate-800/80 backdrop-blur-sm rounded-xl shadow-xl p-8 border border-slate-700">
-        <h2 className="text-2xl font-bold mb-6 text-center">Login to Your Account</h2>
+        <h2 className="text-2xl font-bold mb-6 text-center">Login to LifeNFT</h2>
 
         {error && (
           <div className="bg-red-500/20 border border-red-500 text-red-300 px-4 py-3 rounded-lg mb-6">
@@ -130,8 +156,8 @@ export function Login() {
             <label className="block text-sm font-medium text-slate-300 mb-1">Username/ID</label>
             <input
               type="text"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              value={userId}
+              onChange={(e) => setUserId(e.target.value)}
               className="w-full p-3 bg-slate-700/50 border border-slate-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
               placeholder="Enter your username"
             />
@@ -149,38 +175,38 @@ export function Login() {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-slate-300 mb-1">Login As</label>
-            <select
-              value={role}
-              onChange={(e) => setRole(e.target.value)}
-              className="w-full p-3 bg-slate-700/50 border border-slate-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
-            >
-              <option value="user">Regular User</option>
-              <option value="hospital">Hospital Owner</option>
-              <option value="government">Government/Authority</option>
-            </select>
-          </div>
-
-          <div>
             <button
               type="submit"
-              className="w-full py-3 rounded-lg bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white font-medium transition-all shadow-lg hover:shadow-purple-500/20"
+              disabled={isLoading}
+              className="w-full py-3 rounded-lg bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white font-medium transition-all shadow-lg hover:shadow-purple-500/20 disabled:opacity-70"
             >
-              Login
+              {isLoading ? "Logging in..." : "Login"}
             </button>
           </div>
         </form>
 
-        <div className="mt-6 text-center text-sm text-slate-400">
-          Don't have an account? <a href="/register" className="text-purple-400 hover:text-purple-300">Register here</a>
+        <div className="my-6 relative flex items-center">
+          <div className="flex-grow border-t border-slate-600"></div>
+          <span className="flex-shrink mx-4 text-slate-400">or</span>
+          <div className="flex-grow border-t border-slate-600"></div>
         </div>
 
         <div className="mt-6 text-center">
-          <button onClick={handleHiveLogin} className="w-full py-3 rounded-lg bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white font-medium transition-all shadow-lg hover:shadow-purple-500/20">
-            Login with Hive Keychain
+          <p className="text-sm text-slate-400 mb-2">Enter your Hive username above, then click:</p>
+          <button 
+            onClick={handleHiveLogin} 
+            className="w-full py-3 rounded-lg bg-gradient-to-r from-blue-500 to-teal-500 hover:from-blue-600 hover:to-teal-600 text-white font-medium transition-all shadow-lg hover:shadow-blue-500/20"
+          >
+            Connect Hive Wallet
           </button>
+        </div>
+
+        <div className="mt-6 text-center text-sm text-slate-400">
+          Don't have an account? <a href="/register" className="text-purple-400 hover:text-purple-300">Register here</a>
         </div>
       </div>
     </div>
   );
 }
+
+export default Login;

@@ -17,6 +17,7 @@ export function VerifyDonation() {
   const [isVerifying, setIsVerifying] = useState(false);
   const [transactionStatus, setTransactionStatus] = useState("");
   const [ipfsHash, setIpfsHash] = useState("");
+  const [hiveUsername, setHiveUsername] = useState("");
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -112,6 +113,42 @@ export function VerifyDonation() {
       setTransactionStatus("Error in processing transaction.");
       setIsVerifying(false);
     }
+  };
+
+  const verifyDonation = (donationId) => {
+    if (!window.hive_keychain) {
+      alert("Hive Keychain extension is required!");
+      return;
+    }
+
+    const customJson = {
+      id: "lifenft_donation_verification",
+      json: JSON.stringify({
+        donation_id: donationId,
+        verified_by: hiveUsername,
+        timestamp: new Date().toISOString(),
+      }),
+      required_auths: [],
+      required_posting_auths: [hiveUsername],
+    };
+
+    console.log("Verifying donation:", donationId);
+
+    window.hive_keychain.requestCustomJson(
+      hiveUsername,
+      customJson.id,
+      "Posting",
+      customJson.json,
+      "Verify Donation",
+      (response) => {
+        if (response.success) {
+          alert("Donation verified and transaction broadcasted!");
+          // Update state/UI as needed
+        } else {
+          alert(`Transaction failed: ${response.message}`);
+        }
+      }
+    );
   };
 
   return (

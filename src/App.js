@@ -15,6 +15,8 @@ import AppBar from './components/AppBar';
 import ParticleBackground from './components/ParticleBackground';
 import { DonationProvider } from './contexts/DonationContext';
 import { RoleProvider } from "./contexts/RoleContext";
+import NFTPage from './pages/NFTPage';
+import ReportsPage from './pages/ReportsPage';
 
 function App() {
   const [userRole, setUserRole] = useState(() => {
@@ -76,6 +78,8 @@ function App() {
                     <Route path="/verify-donation" element={<VerifyDonation />} />
                     <Route path="/redeem-nft" element={<RedeemNFT />} />
                     <Route path="/manage-hospitals" element={<ManageHospitals />} />
+                    <Route path="/nfts" element={<NFTPage />} />
+                    <Route path="/reports" element={<ReportsPage />} />
                   </Routes>
                 </div>
 

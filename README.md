@@ -42,6 +42,20 @@ BloodDonorNFT fully utilizes the **Hive blockchain** for:
 
 This project was developed as part of the **Hive Blockchain Hackathon**, demonstrating a real-world application of **Hive blockchain** in healthcare and donor incentivization. 🚀
 
+## Revenue Model  
+
+LifeNFT adopts a sustainable revenue model while ensuring a decentralized and fair reward system for blood donors. Our revenue streams include:  
+
+- **Transaction Fees** – A small service fee is applied to transactions involving NFT rewards, verifications, and donor badge upgrades.  
+- **Premium Memberships** – Hospitals and blood banks can subscribe to premium plans for priority access to verified donor data and advanced analytics.  
+- **API Monetization** – Third-party applications, insurance providers, and healthcare platforms can integrate our open API for donor verification and blood donation records via a paid subscription model.  
+- **Sponsorships & Partnerships** – Collaborating with government health programs, NGOs, and private organizations to promote blood donation, where they contribute funds for platform development and maintenance.  
+- **NFT Marketplace** – A decentralized marketplace where donors can trade exclusive achievement-based NFTs, allowing organizations to sponsor special NFTs with unique perks.  
+- **AI-Powered Insights & Reports** – Offering AI-generated reports and donor behavior analytics to healthcare organizations for a subscription fee.  
+- **Tokenization & Staking** – Potential future implementation of a LifeNFT token, enabling staking mechanisms for users, providing incentives while generating platform revenue.  
+
+This model ensures financial sustainability while keeping the platform beneficial for donors, hospitals, and healthcare organizations.
+
 
 ## Getting Started
 

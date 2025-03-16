@@ -49,7 +49,7 @@ This project was developed as part of the **Hive Blockchain Hackathon**, demonst
 
 - Node.js (v14 or higher)
 - npm or yarn
-- MetaMask or another Web3 wallet for NFT transactions
+- Hive Keychain wallet for NFT transactions
 
 ### Installation
 

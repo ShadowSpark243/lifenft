@@ -105,7 +105,7 @@ export function Explore() {
   const [showCreatePostModal, setShowCreatePostModal] = useState(false);
   const [postTitle, setPostTitle] = useState("");
   const [postContent, setPostContent] = useState("");
-  
+
   // New states for user details
   const [showUserDetailsModal, setShowUserDetailsModal] = useState(false);
   const [userName, setUserName] = useState("");
@@ -113,11 +113,11 @@ export function Explore() {
   const [userPhone, setUserPhone] = useState("");
   const [bloodGroup, setBloodGroup] = useState("");
   const [formErrors, setFormErrors] = useState({});
-  
+
   // Location field for blood requests
   const [location, setLocation] = useState("");
   const [isUrgent, setIsUrgent] = useState(false);
-  
+
   // State for donation requests/posts
   const [donationRequests, setDonationRequests] = useState(initialRequests);
   const [showSuccessAlert, setShowSuccessAlert] = useState(false);
@@ -129,7 +129,7 @@ export function Explore() {
     }, 800);
     return () => clearTimeout(timer);
   }, []);
-  
+
   // Handle success alert timeout
   useEffect(() => {
     if (showSuccessAlert) {
@@ -142,16 +142,16 @@ export function Explore() {
 
   // Filter and sort NFTs
   const filteredNFTs = allNFTs
-    .filter(nft => 
+    .filter(nft =>
       (selectedCategory === "All" || nft.category === selectedCategory) &&
-      (nft.name.toLowerCase().includes(searchTerm.toLowerCase()) || 
-       nft.creator.toLowerCase().includes(searchTerm.toLowerCase()) ||
-       nft.description.toLowerCase().includes(searchTerm.toLowerCase()))
+      (nft.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        nft.creator.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        nft.description.toLowerCase().includes(searchTerm.toLowerCase()))
     )
     .sort((a, b) => {
       const priceA = parseFloat(a.price);
       const priceB = parseFloat(b.price);
-      
+
       if (sortOption === "price-low-high") {
         return priceA - priceB;
       } else if (sortOption === "price-high-low") {
@@ -160,11 +160,11 @@ export function Explore() {
         return 0;
       }
     });
-    
+
   // Filter donation requests
   const filteredRequests = donationRequests
-    .filter(request => 
-      request.title.toLowerCase().includes(searchTerm.toLowerCase()) || 
+    .filter(request =>
+      request.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
       request.content.toLowerCase().includes(searchTerm.toLowerCase()) ||
       request.author.toLowerCase().includes(searchTerm.toLowerCase()) ||
       request.bloodGroup.toLowerCase().includes(searchTerm.toLowerCase())
@@ -173,7 +173,7 @@ export function Explore() {
   // Validate user details form
   const validateUserForm = () => {
     const errors = {};
-    
+
     if (!userName.trim()) errors.userName = "Name is required";
     if (!userEmail.trim()) {
       errors.userEmail = "Email is required";
@@ -181,7 +181,7 @@ export function Explore() {
       errors.userEmail = "Email is invalid";
     }
     if (!bloodGroup) errors.bloodGroup = "Blood group is required";
-    
+
     setFormErrors(errors);
     return Object.keys(errors).length === 0;
   };
@@ -201,7 +201,7 @@ export function Explore() {
       alert("Please enter a post title");
       return;
     }
-    
+
     // Create new request object
     const newRequest = {
       id: donationRequests.length + 1,
@@ -215,20 +215,20 @@ export function Explore() {
       email: userEmail,
       phone: userPhone
     };
-    
+
     // Add new request to the list
     setDonationRequests([newRequest, ...donationRequests]);
-    
+
     // Reset form values
     setPostTitle("");
     setPostContent("");
     setLocation("");
     setIsUrgent(false);
     setShowCreatePostModal(false);
-    
+
     // Show success notification
     setShowSuccessAlert(true);
-    
+
     // Switch to requests tab to show the new post
     setActiveTab("requests");
   };
@@ -236,12 +236,12 @@ export function Explore() {
   // Format date for display
   const formatDate = (dateString) => {
     const date = new Date(dateString);
-    return date.toLocaleDateString('en-US', { 
-      year: 'numeric', 
-      month: 'short', 
-      day: 'numeric', 
-      hour: '2-digit', 
-      minute: '2-digit' 
+    return date.toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit'
     });
   };
 
@@ -258,7 +258,7 @@ export function Explore() {
   }
 
   return (
-    <div className="animate-fade-in">
+    <div className="w-full min-h-screen pt-[100px] pb-16 px-4 sm:px-6 lg:px-8 mx-auto max-w-7xl animate-fade-in box-border overflow-x-hidden">
       {/* Success Alert */}
       {showSuccessAlert && (
         <div className="fixed top-4 left-1/2 transform -translate-x-1/2 z-50 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg flex items-center">
@@ -268,7 +268,7 @@ export function Explore() {
           <span>Post submitted successfully! Thank you for contributing to our blood donation community.</span>
         </div>
       )}
-    
+
       {/* Header Section */}
       <div className="text-center mb-8">
         <h1 className="text-4xl font-bold mb-2 bg-gradient-to-r from-red-500 to-red-700 bg-clip-text text-transparent">
@@ -298,21 +298,19 @@ export function Explore() {
       <div className="mb-6 border-b border-slate-700">
         <div className="flex space-x-1">
           <button
-            className={`px-4 py-2 font-medium text-sm rounded-t-lg ${
-              activeTab === 'requests'
+            className={`px-4 py-2 font-medium text-sm rounded-t-lg ${activeTab === 'requests'
                 ? 'bg-red-600 text-white'
                 : 'bg-slate-800 text-slate-300 hover:bg-slate-700'
-            }`}
+              }`}
             onClick={() => setActiveTab('requests')}
           >
             Blood Donation Requests
           </button>
           <button
-            className={`px-4 py-2 font-medium text-sm rounded-t-lg ${
-              activeTab === 'nfts'
+            className={`px-4 py-2 font-medium text-sm rounded-t-lg ${activeTab === 'nfts'
                 ? 'bg-red-600 text-white'
                 : 'bg-slate-800 text-slate-300 hover:bg-slate-700'
-            }`}
+              }`}
             onClick={() => setActiveTab('nfts')}
           >
             NFT Collection
@@ -373,11 +371,10 @@ export function Explore() {
                 {categories.map((category) => (
                   <button
                     key={category}
-                    className={`px-4 py-2 rounded-full font-medium transition-all ${
-                      selectedCategory === category
+                    className={`px-4 py-2 rounded-full font-medium transition-all ${selectedCategory === category
                         ? "bg-gradient-to-r from-red-500 to-red-700 text-white shadow-lg"
                         : "bg-slate-800 text-slate-300 hover:bg-slate-700"
-                    }`}
+                      }`}
                     onClick={() => setSelectedCategory(category)}
                   >
                     {category}
@@ -385,7 +382,7 @@ export function Explore() {
                 ))}
               </div>
             </div>
-            
+
             <div>
               <h3 className="text-lg font-medium mb-3 text-white">Sort & View</h3>
               <div className="flex flex-wrap gap-4">
@@ -397,9 +394,9 @@ export function Explore() {
                   <option value="price-low-high">Price: Low to High</option>
                   <option value="price-high-low">Price: High to Low</option>
                 </select>
-                
+
                 <div className="flex bg-slate-800 border border-slate-700 rounded-lg overflow-hidden">
-                  <button 
+                  <button
                     className={`px-3 py-2 flex items-center ${viewMode === 'grid' ? 'bg-red-600 text-white' : 'text-slate-400 hover:bg-slate-700'}`}
                     onClick={() => setViewMode('grid')}
                   >
@@ -407,7 +404,7 @@ export function Explore() {
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
                     </svg>
                   </button>
-                  <button 
+                  <button
                     className={`px-3 py-2 flex items-center ${viewMode === 'list' ? 'bg-red-600 text-white' : 'text-slate-400 hover:bg-slate-700'}`}
                     onClick={() => setViewMode('list')}
                   >
@@ -440,10 +437,10 @@ export function Explore() {
       {activeTab === 'nfts' ? (
         /* NFT Gallery */
         filteredNFTs.length > 0 ? (
-          <div className={viewMode === 'grid' ? 
-            "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" : 
-            "flex flex-col gap-6"
-          }>
+          <div
+            className={viewMode === 'grid' ? "grid gap-[20px] w-full" : "flex flex-col gap-6 w-full"}
+            style={viewMode === 'grid' ? { gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))' } : {}}
+          >
             {filteredNFTs.map((nft) => (
               <NFTCard key={nft.id} nft={nft} />
             ))}
@@ -455,7 +452,7 @@ export function Explore() {
             </svg>
             <h3 className="text-xl font-medium text-slate-400">No NFTs found</h3>
             <p className="text-slate-500 mt-2 mb-6">Try adjusting your search or filter criteria</p>
-            <button 
+            <button
               className="px-4 py-2 bg-gradient-to-r from-red-500 to-red-700 hover:from-red-600 hover:to-red-800 text-white font-medium rounded-lg transition-all shadow-lg"
               onClick={() => {
                 setSearchTerm("");
@@ -471,8 +468,8 @@ export function Explore() {
         <div className="space-y-6">
           {filteredRequests.length > 0 ? (
             filteredRequests.map(request => (
-              <div 
-                key={request.id} 
+              <div
+                key={request.id}
                 className="bg-slate-800/50 backdrop-blur-sm border border-slate-700 rounded-xl overflow-hidden hover:border-red-500/50 transition-colors"
               >
                 <div className="p-6">
@@ -494,9 +491,9 @@ export function Explore() {
                       {request.bloodGroup}
                     </div>
                   </div>
-                  
+
                   <p className="text-slate-300 mb-4">{request.content}</p>
-                  
+
                   <div className="flex flex-wrap gap-4 text-sm text-slate-400">
                     {request.location && (
                       <div className="flex items-center">
@@ -527,7 +524,7 @@ export function Explore() {
                 </div>
                 <div className="border-t border-slate-700 px-6 py-4">
                   <div className="flex justify-end">
-                    <button 
+                    <button
                       className="bg-gradient-to-r from-red-500 to-red-700 hover:from-red-600 hover:to-red-800 text-white font-medium py-2 px-4 rounded transition-all"
                       onClick={() => alert(`Contact initiated with ${request.author} for ${request.bloodGroup} blood donation.`)}
                     >
@@ -544,7 +541,7 @@ export function Explore() {
               </svg>
               <h3 className="text-xl font-medium text-slate-400">No blood donation requests found</h3>
               <p className="text-slate-500 mt-2 mb-6">Try adjusting your search criteria or create a new request</p>
-              <button 
+              <button
                 className="px-4 py-2 bg-gradient-to-r from-red-500 to-red-700 hover:from-red-600 hover:to-red-800 text-white font-medium rounded-lg transition-all shadow-lg"
                 onClick={() => setShowUserDetailsModal(true)}
               >
@@ -573,12 +570,12 @@ export function Explore() {
           <div className="bg-slate-800 border border-slate-700 rounded-xl w-full max-w-md p-6 shadow-2xl animate-fade-in">
             <h2 className="text-2xl font-bold mb-4 text-white">Your Details</h2>
             <p className="text-slate-400 mb-6">Please provide your information to create a blood donation request.</p>
-            
+
             <div className="space-y-4">
               <div>
                 <label className="block text-sm font-medium text-slate-300 mb-1">Full Name</label>
-                <input 
-                  type="text" 
+                <input
+                  type="text"
                   className={`w-full p-3 bg-slate-700 border ${formErrors.userName ? 'border-red-500' : 'border-slate-600'} rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500`}
                   value={userName}
                   onChange={(e) => setUserName(e.target.value)}
@@ -586,11 +583,11 @@ export function Explore() {
                 />
                 {formErrors.userName && <p className="mt-1 text-sm text-red-500">{formErrors.userName}</p>}
               </div>
-              
+
               <div>
                 <label className="block text-sm font-medium text-slate-300 mb-1">Email Address</label>
-                <input 
-                  type="email" 
+                <input
+                  type="email"
                   className={`w-full p-3 bg-slate-700 border ${formErrors.userEmail ? 'border-red-500' : 'border-slate-600'} rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500`}
                   value={userEmail}
                   onChange={(e) => setUserEmail(e.target.value)}
@@ -598,21 +595,21 @@ export function Explore() {
                 />
                 {formErrors.userEmail && <p className="mt-1 text-sm text-red-500">{formErrors.userEmail}</p>}
               </div>
-              
+
               <div>
                 <label className="block text-sm font-medium text-slate-300 mb-1">Phone Number (Optional)</label>
-                <input 
-                  type="tel" 
+                <input
+                  type="tel"
                   className="w-full p-3 bg-slate-700 border border-slate-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500"
                   value={userPhone}
                   onChange={(e) => setUserPhone(e.target.value)}
                   placeholder="Enter your phone number"
                 />
               </div>
-              
+
               <div>
                 <label className="block text-sm font-medium text-slate-300 mb-1">Blood Group</label>
-                <select 
+                <select
                   className={`w-full p-3 bg-slate-700 border ${formErrors.bloodGroup ? 'border-red-500' : 'border-slate-600'} rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500`}
                   value={bloodGroup}
                   onChange={(e) => setBloodGroup(e.target.value)}
@@ -631,7 +628,7 @@ export function Explore() {
                 {formErrors.bloodGroup && <p className="mt-1 text-sm text-red-500">{formErrors.bloodGroup}</p>}
               </div>
             </div>
-            
+
             <div className="flex justify-end mt-6 gap-3">
               <button
                 className="px-4 py-2 border border-slate-600 text-slate-300 rounded-lg hover:bg-slate-700 transition-colors"
@@ -656,42 +653,42 @@ export function Explore() {
           <div className="bg-slate-800 border border-slate-700 rounded-xl w-full max-w-md p-6 shadow-2xl animate-fade-in">
             <h2 className="text-2xl font-bold mb-4 text-white">Create Blood Request</h2>
             <p className="text-slate-400 mb-6">Please provide details about your blood donation request.</p>
-            
+
             <div className="space-y-4">
               <div>
                 <label className="block text-sm font-medium text-slate-300 mb-1">Title</label>
-                <input 
-                  type="text" 
+                <input
+                  type="text"
                   className="w-full p-3 bg-slate-700 border border-slate-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500"
                   value={postTitle}
                   onChange={(e) => setPostTitle(e.target.value)}
                   placeholder="E.g., Urgent B+ Blood Needed"
                 />
               </div>
-              
+
               <div>
                 <label className="block text-sm font-medium text-slate-300 mb-1">Location</label>
-                <input 
-                  type="text" 
+                <input
+                  type="text"
                   className="w-full p-3 bg-slate-700 border border-slate-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500"
                   value={location}
                   onChange={(e) => setLocation(e.target.value)}
                   placeholder="E.g., City Hospital, Downtown"
                 />
               </div>
-              
+
               <div>
                 <label className="block text-sm font-medium text-slate-300 mb-1">Description</label>
-                <textarea 
+                <textarea
                   className="w-full p-3 bg-slate-700 border border-slate-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 min-h-[100px]"
                   value={postContent}
                   onChange={(e) => setPostContent(e.target.value)}
                   placeholder="Provide details about your blood request..."
                 ></textarea>
               </div>
-              
+
               <div className="flex items-center">
-                <input 
+                <input
                   type="checkbox"
                   id="urgentCheck"
                   className="w-4 h-4 text-red-600 bg-slate-700 border-slate-600 rounded focus:ring-red-500"
@@ -703,7 +700,7 @@ export function Explore() {
                 </label>
               </div>
             </div>
-            
+
             <div className="flex justify-end mt-6 gap-3">
               <button
                 className="px-4 py-2 border border-slate-600 text-slate-300 rounded-lg hover:bg-slate-700 transition-colors"

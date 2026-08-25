@@ -363,51 +363,51 @@ function GovDashboard() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 to-slate-800 text-white">
-      <header className="bg-slate-800/50 backdrop-blur-sm border-b border-slate-700 sticky top-0 z-10">
+    <div className="bold-typography-theme min-h-screen bg-bt-bg text-white">
+      <header className="bg-bt-bg-elevated border-b border-bt-border sticky top-0 z-10">
         <div className="container mx-auto px-4 py-3 flex justify-between items-center">
           <div className="flex items-center space-x-4">
-            <h1 className="text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-emerald-500">
+            <h1 className="font-bt-body text-sm font-extrabold uppercase tracking-widest text-white">
               LifeNFT Government Portal
             </h1>
             
             <nav className="hidden md:flex space-x-1">
               <button 
                 onClick={() => setActiveTab("dashboard")}
-                className={`px-3 py-2 rounded-lg text-sm transition-colors ${
+                className={`px-3 py-2 border-b text-xs uppercase tracking-wider transition-colors ${
                   activeTab === "dashboard" 
-                    ? "bg-green-500/10 text-green-400" 
-                    : "hover:bg-slate-700"
+                    ? "border-secondary text-secondary-light" 
+                    : "border-transparent text-slate-400 hover:text-white"
                 }`}
               >
                 Dashboard
               </button>
               <button 
                 onClick={() => setActiveTab("hospitals")}
-                className={`px-3 py-2 rounded-lg text-sm transition-colors ${
+                className={`px-3 py-2 border-b text-xs uppercase tracking-wider transition-colors ${
                   activeTab === "hospitals" 
-                    ? "bg-green-500/10 text-green-400" 
-                    : "hover:bg-slate-700"
+                    ? "border-secondary text-secondary-light" 
+                    : "border-transparent text-slate-400 hover:text-white"
                 }`}
               >
                 Hospitals
               </button>
               <button 
                 onClick={() => setActiveTab("blockchain")}
-                className={`px-3 py-2 rounded-lg text-sm transition-colors ${
+                className={`px-3 py-2 border-b text-xs uppercase tracking-wider transition-colors ${
                   activeTab === "blockchain" 
-                    ? "bg-green-500/10 text-green-400" 
-                    : "hover:bg-slate-700"
+                    ? "border-secondary text-secondary-light" 
+                    : "border-transparent text-slate-400 hover:text-white"
                 }`}
               >
                 Blockchain
               </button>
               <button 
                 onClick={() => setActiveTab("profile")}
-                className={`px-3 py-2 rounded-lg text-sm transition-colors ${
+                className={`px-3 py-2 border-b text-xs uppercase tracking-wider transition-colors ${
                   activeTab === "profile" 
-                    ? "bg-green-500/10 text-green-400" 
-                    : "hover:bg-slate-700"
+                    ? "border-secondary text-secondary-light" 
+                    : "border-transparent text-slate-400 hover:text-white"
                 }`}
               >
                 Profile

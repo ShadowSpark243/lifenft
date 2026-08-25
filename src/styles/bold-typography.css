@@ -1,0 +1,350 @@
+/* ============================================================
+   BOLD TYPOGRAPHY DESIGN SYSTEM — Scoped Tokens
+   Wrap any subtree with class="bold-typography-theme" to activate.
+   These variables NEVER override anything in the existing app.
+   ============================================================ */
+
+/* ── Google Fonts (append-safe) ────────────────────────────── */
+@import url('https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,100..900;1,100..900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap');
+
+/* ── Design Tokens ─────────────────────────────────────────── */
+.bold-typography-theme {
+    /* ─ Color Palette ─ */
+    --bt-color-bg: #050505;
+    --bt-color-bg-elevated: #0c0c0c;
+    --bt-color-bg-card: #111111;
+    --bt-color-surface: #1a1a1a;
+    --bt-color-border: #2a2a2a;
+    --bt-color-border-subtle: #1e1e1e;
+
+    --bt-color-text-primary: #f5f5f5;
+    --bt-color-text-secondary: #a0a0a0;
+    --bt-color-text-muted: #666666;
+
+    --bt-color-accent: #ffffff;
+    --bt-color-accent-muted: rgba(255, 255, 255, 0.08);
+    --bt-color-accent-hover: rgba(255, 255, 255, 0.12);
+
+    --bt-color-blood: #c62828;
+    --bt-color-blood-light: #e53935;
+    --bt-color-blood-dark: #8e0000;
+    --bt-color-blood-muted: rgba(198, 40, 40, 0.12);
+
+    --bt-color-success: #66bb6a;
+    --bt-color-warning: #ffa726;
+    --bt-color-error: #ef5350;
+
+    /* ─ Typography ─ */
+    --bt-font-display: 'Playfair Display', Georgia, serif;
+    --bt-font-body: 'Inter Tight', 'Inter', system-ui, sans-serif;
+    --bt-font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+
+    --bt-text-xs: 0.75rem;
+    /* 12px */
+    --bt-text-sm: 0.875rem;
+    /* 14px */
+    --bt-text-base: 1rem;
+    /* 16px */
+    --bt-text-lg: 1.125rem;
+    /* 18px */
+    --bt-text-xl: 1.25rem;
+    /* 20px */
+    --bt-text-2xl: 1.5rem;
+    /* 24px */
+    --bt-text-3xl: 1.875rem;
+    /* 30px */
+    --bt-text-4xl: 2.25rem;
+    /* 36px */
+    --bt-text-5xl: 3rem;
+    /* 48px */
+    --bt-text-6xl: 3.75rem;
+    /* 60px */
+    --bt-text-7xl: 4.5rem;
+    /* 72px */
+    --bt-text-8xl: 6rem;
+    /* 96px */
+
+    --bt-leading-none: 1;
+    --bt-leading-tight: 1.15;
+    --bt-leading-snug: 1.3;
+    --bt-leading-normal: 1.6;
+
+    --bt-tracking-tighter: -0.04em;
+    --bt-tracking-tight: -0.02em;
+    --bt-tracking-normal: 0em;
+    --bt-tracking-wide: 0.05em;
+    --bt-tracking-wider: 0.1em;
+    --bt-tracking-widest: 0.2em;
+
+    /* ─ Spacing ─ */
+    --bt-space-1: 0.25rem;
+    /* 4px  */
+    --bt-space-2: 0.5rem;
+    /* 8px  */
+    --bt-space-3: 0.75rem;
+    /* 12px */
+    --bt-space-4: 1rem;
+    /* 16px */
+    --bt-space-6: 1.5rem;
+    /* 24px */
+    --bt-space-8: 2rem;
+    /* 32px */
+    --bt-space-12: 3rem;
+    /* 48px */
+    --bt-space-16: 4rem;
+    /* 64px */
+    --bt-space-24: 6rem;
+    /* 96px */
+    --bt-space-32: 8rem;
+    /* 128px */
+
+    /* ─ Radius (Sharp by design — 0 everywhere) ─ */
+    --bt-radius-none: 0;
+    --bt-radius-sm: 2px;
+    --bt-radius-md: 4px;
+
+    /* ─ Motion ─ */
+    --bt-ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+    --bt-ease-in: cubic-bezier(0.55, 0, 1, 0.45);
+    --bt-ease-inout: cubic-bezier(0.65, 0, 0.35, 1);
+    --bt-duration-fast: 150ms;
+    --bt-duration-normal: 300ms;
+    --bt-duration-slow: 600ms;
+
+    /* ─ Base styles for the scoped region ─ */
+    font-family: var(--bt-font-body);
+    color: var(--bt-color-text-primary);
+    background-color: var(--bt-color-bg);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* ── Noise / Grain Texture Overlay ─────────────────────────── */
+.bt-noise {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    pointer-events: none;
+    opacity: 0.035;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+    background-repeat: repeat;
+    mix-blend-mode: overlay;
+}
+
+/* ── Typography Utility Classes ────────────────────────────── */
+.bt-heading-display {
+    font-family: var(--bt-font-display);
+    font-weight: 700;
+    line-height: var(--bt-leading-none);
+    letter-spacing: var(--bt-tracking-tighter);
+    font-style: italic;
+}
+
+.bt-heading-sans {
+    font-family: var(--bt-font-body);
+    font-weight: 800;
+    line-height: var(--bt-leading-tight);
+    letter-spacing: var(--bt-tracking-tight);
+    text-transform: uppercase;
+}
+
+.bt-body {
+    font-family: var(--bt-font-body);
+    font-weight: 400;
+    line-height: var(--bt-leading-normal);
+    letter-spacing: var(--bt-tracking-normal);
+    color: var(--bt-color-text-secondary);
+}
+
+.bt-mono {
+    font-family: var(--bt-font-mono);
+    font-weight: 400;
+    font-size: var(--bt-text-sm);
+    letter-spacing: var(--bt-tracking-wide);
+}
+
+.bt-label {
+    font-family: var(--bt-font-body);
+    font-weight: 600;
+    font-size: var(--bt-text-xs);
+    letter-spacing: var(--bt-tracking-widest);
+    text-transform: uppercase;
+    color: var(--bt-color-text-muted);
+}
+
+/* ── Divider ───────────────────────────────────────────────── */
+.bt-divider {
+    border: none;
+    height: 1px;
+    background: var(--bt-color-border);
+    margin: var(--bt-space-8) 0;
+}
+
+.bt-divider--accent {
+    height: 2px;
+    background: linear-gradient(to right,
+            var(--bt-color-blood),
+            transparent);
+}
+
+/* ── Focus Ring ────────────────────────────────────────────── */
+.bt-focus-ring:focus-visible {
+    outline: 2px solid var(--bt-color-text-primary);
+    outline-offset: 2px;
+}
+
+/* ── Scroll Fade-in (CSS fallback; JS version uses Framer) ── */
+@keyframes bt-fade-up {
+    from {
+        opacity: 0;
+        transform: translateY(32px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.bt-animate-fade-up {
+    animation: bt-fade-up 0.7s var(--bt-ease-out) forwards;
+}
+
+/* ── Selection Color ───────────────────────────────────────── */
+.bold-typography-theme ::selection {
+    background: var(--bt-color-blood);
+    color: #fff;
+}
+
+/* Normalize legacy utility classes while individual screens migrate. */
+.bold-typography-theme [class*="rounded-"] {
+    border-radius: 0 !important;
+}
+
+.bold-typography-theme [class*="shadow-"] {
+    box-shadow: none !important;
+}
+
+.bold-typography-theme [class*="backdrop-blur"] {
+    backdrop-filter: none !important;
+}
+
+.bold-typography-theme [class*="bg-slate-800"] {
+    background-color: var(--bt-color-bg-card) !important;
+}
+
+.bold-typography-theme [class*="bg-slate-900"] {
+    background-color: var(--bt-color-bg-elevated) !important;
+}
+
+.bold-typography-theme [class*="border-slate-700"] {
+    border-color: var(--bt-color-border) !important;
+}
+
+.bold-typography-theme [class*="text-purple-"] {
+    color: var(--bt-color-blood-light) !important;
+}
+
+.bold-typography-theme [class*="from-purple-"],
+.bold-typography-theme [class*="to-pink-"],
+.bold-typography-theme [class*="via-violet-"] {
+    --tw-gradient-from: var(--bt-color-blood) !important;
+    --tw-gradient-to: var(--bt-color-blood-dark) !important;
+}
+
+.bold-typography-theme [class*="bg-white"],
+.bold-typography-theme [class*="bg-gray-50"],
+.bold-typography-theme [class*="bg-gray-100"] {
+    background-color: var(--bt-color-bg-card) !important;
+}
+
+.bold-typography-theme [class*="bg-red-50"],
+.bold-typography-theme [class*="bg-red-100"],
+.bold-typography-theme [class*="bg-green-50"],
+.bold-typography-theme [class*="bg-green-100"],
+.bold-typography-theme [class*="bg-blue-50"],
+.bold-typography-theme [class*="bg-blue-100"],
+.bold-typography-theme [class*="bg-purple-50"],
+.bold-typography-theme [class*="bg-purple-100"] {
+    background-color: var(--bt-color-accent-muted) !important;
+}
+
+.bold-typography-theme [class*="bg-gradient-"] {
+    background-image: none !important;
+    background-color: var(--bt-color-bg) !important;
+}
+
+.bold-typography-theme [class*="text-gray-"],
+.bold-typography-theme [class*="text-slate-300"],
+.bold-typography-theme [class*="text-slate-400"] {
+    color: var(--bt-color-text-secondary) !important;
+}
+
+.bold-typography-theme [class*="text-slate-500"],
+.bold-typography-theme [class*="text-slate-600"] {
+    color: var(--bt-color-text-muted) !important;
+}
+
+.bold-typography-theme [class*="border-gray-"],
+.bold-typography-theme [class*="border-slate-"] {
+    border-color: var(--bt-color-border) !important;
+}
+
+.bold-typography-theme [class*="focus:ring-"]:focus,
+.bold-typography-theme [class*="focus:border-"]:focus {
+    --tw-ring-color: var(--bt-color-text-primary) !important;
+    border-color: var(--bt-color-text-primary) !important;
+    outline: none;
+}
+
+.bold-typography-theme input,
+.bold-typography-theme select,
+.bold-typography-theme textarea {
+    border-radius: 0 !important;
+    background-color: var(--bt-color-surface) !important;
+    border-color: var(--bt-color-border) !important;
+    color: var(--bt-color-text-primary) !important;
+    box-shadow: none !important;
+    font-family: var(--bt-font-body);
+}
+
+.bold-typography-theme button {
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    font-family: var(--bt-font-body);
+}
+
+.bold-typography-theme h1,
+.bold-typography-theme h2,
+.bold-typography-theme h3,
+.bold-typography-theme h4,
+.bold-typography-theme h5,
+.bold-typography-theme h6 {
+    letter-spacing: var(--bt-tracking-tight);
+}
+
+.bold-typography-theme table thead {
+    background: var(--bt-color-surface) !important;
+}
+
+.bold-typography-theme table th {
+    color: var(--bt-color-text-muted) !important;
+    font-family: var(--bt-font-mono);
+    font-size: var(--bt-text-xs);
+    letter-spacing: var(--bt-tracking-wide);
+    text-transform: uppercase;
+}
+
+.bold-typography-theme table td {
+    border-color: var(--bt-color-border-subtle) !important;
+}
+
+.bold-typography-theme [class*="divide-"] > :not([hidden]) ~ :not([hidden]) {
+    border-color: var(--bt-color-border-subtle) !important;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+    .bold-typography-theme > div > main > * {
+        animation: bt-fade-up 0.7s var(--bt-ease-out) both;
+    }
+}

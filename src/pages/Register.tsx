@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { AuthService } from "../services/auth.service";
 
 export function Register() {
   const [userId, setUserId] = useState("");
@@ -28,7 +29,7 @@ export function Register() {
   
   const navigate = useNavigate();
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
     setIsLoading(true);
@@ -89,21 +90,13 @@ export function Register() {
     }
 
     try {
-      const response = await fetch('http://localhost:5000/auth/register', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(registrationData)
-      });
-
-      const data = await response.json();
+      const result = await AuthService.register(registrationData);
       
-      if (response.ok) {
+      if (result.success) {
         alert("Registration successful! Please login.");
         navigate("/login");
       } else {
-        setError(data.message || "Registration failed");
+        setError(result.message);
       }
     } catch (err) {
       console.error("Registration error:", err);

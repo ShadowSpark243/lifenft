@@ -1,7 +1,7 @@
 import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { RoleContext } from "../contexts/RoleContext";
-
+import { AuthService } from "../services/auth.service";
 export function Login() {
   const [userId, setUserId] = useState("");
   const [password, setPassword] = useState("");
@@ -10,56 +10,7 @@ export function Login() {
   const { login } = useContext(RoleContext);
   const navigate = useNavigate();
 
-  const handleApiLogin = async (userId, password) => {
-    try {
-      setIsLoading(true);
-      // Update the endpoint to point to our new backend
-      const response = await fetch('http://localhost:5000/auth/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json'
-        },
-        credentials: 'include',
-        body: JSON.stringify({
-          userId: userId,
-          password: password
-        })
-      });
-
-      const data = await response.json();
-      console.log("API Response:", data);
-
-      // Update response handling to match our new backend format
-      if (data.user) {
-        // Store user data in localStorage
-        localStorage.setItem('userData', JSON.stringify(data.user));
-        
-        // Return success with role information
-        return {
-          success: true,
-          role: data.user.Role || 'user',
-          message: data.message
-        };
-      } else {
-        // Login failed
-        return {
-          success: false,
-          message: data.message || "Invalid credentials"
-        };
-      }
-    } catch (err) {
-      console.error("Login error:", err);
-      return {
-        success: false,
-        message: "Login failed. Please try again."
-      };
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
 
@@ -69,7 +20,8 @@ export function Login() {
     }
 
     try {
-      const loginResult = await handleApiLogin(userId, password);
+      setIsLoading(true);
+      const loginResult = await AuthService.login(userId, password);
       
       if (loginResult.success) {
         // Set the role in the context
@@ -94,11 +46,15 @@ export function Login() {
       }
     } catch (err) {
       setError("Login failed. Please try again.");
+    } finally {
+      setIsLoading(false);
     }
   };
 
+
+
   const handleHiveLogin = () => {
-    if (!window.hive_keychain) {
+    if (!(window as any).hive_keychain) {
       alert("Hive Keychain is not installed.");
       return;
     }
@@ -113,11 +69,11 @@ export function Login() {
 
     const message = "Login to LifeNFT at " + new Date().toISOString();
 
-    window.hive_keychain.requestSignBuffer(
+    (window as any).hive_keychain.requestSignBuffer(
       hiveUsername,
       message,
       "Posting",
-      function (response) {
+      function (response: any) {
         if (response.success) {
           console.log("Hive Keychain Login Successful:", hiveUsername);
           

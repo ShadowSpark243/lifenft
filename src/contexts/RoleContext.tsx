@@ -1,9 +1,9 @@
 import React, { createContext, useState, useEffect } from "react";
 
-export const RoleContext = createContext();
+export const RoleContext = createContext<any>(null);
 
-export const RoleProvider = ({ children }) => {
-  const [userRole, setUserRole] = useState(null);
+export const RoleProvider = ({ children }: { children: React.ReactNode }) => {
+  const [userRole, setUserRole] = useState<string | null>(null);
   
   useEffect(() => {
     // Check if there's a stored user role on component mount

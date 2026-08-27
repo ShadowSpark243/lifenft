@@ -5,9 +5,11 @@ import { Login } from './pages/Login';
 import { Register } from './pages/Register';
 import { Explore } from './pages/Explore';
 import { About } from './pages/About';
-import GovDashboard from './pages/GovDashboard';
+import UserDashboard from "./pages/UserDashboard";
+import GovDashboard from "./pages/GovDashboard";
+import { EmergencyView } from "./pages/EmergencyView";
+import ProtectedRoute from "./components/ProtectedRoute";
 import HospitalDashboard from './pages/HospitalDashboard';
-import UserDashboard from './pages/UserDashboard';
 import { VerifyDonation } from './pages/VerifyDonation';
 import { RedeemNFT } from './pages/RedeemNFT';
 import { ManageHospitals } from './pages/ManageHospitals';
@@ -87,6 +89,7 @@ function App() {
                     <Route path="/manage-hospitals" element={<ManageHospitals />} />
                     <Route path="/nfts" element={<NFTPage />} />
                     <Route path="/reports" element={<ReportsPage />} />
+                    <Route path="/emergency/:userId" element={<EmergencyView />} />
                     <Route path="/design-preview" element={<DesignPreview />} />
                   </Routes>
                 </div>

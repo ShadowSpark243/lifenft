@@ -2,19 +2,21 @@
   "name": "backend",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "src/index.js",
   "scripts": {
+    "start": "wrangler dev --port 5000",
+    "dev": "wrangler dev --port 5000",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "type": "commonjs",
+  "type": "module",
   "dependencies": {
-    "cors": "^2.8.5",
-    "dotenv": "^16.4.7",
-    "express": "^4.21.2",
-    "mysql2": "^3.13.0",
+    "hono": "^4.13.4",
     "touch": "^3.1.1"
+  },
+  "devDependencies": {
+    "wrangler": "^4.125.0"
   }
 }
